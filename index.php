@@ -42,9 +42,26 @@ class Circle implements ICircle {
 class Square implements ISquare {
     function squareArea(int $sideSquare) {
 
-        $diagonal = ($sideSquare * 2) / sqrt(2);
+        $diagonal = $sideSquare * sqrt(2.0);
         $squareAreaLib = new SquareAreaLib();
         $result = $squareAreaLib->getSquareArea($diagonal);
         return $result;
     }
 }
+
+function test1() {
+    $squareArea = new Square();
+    return $squareArea->squareArea(5);
+}
+
+function test2() {
+    $circleArea = new Circle();
+    return $circleArea->circleArea(5);
+}
+
+
+echo test1();
+
+echo "</br>";
+
+echo test2();
