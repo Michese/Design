@@ -1,41 +1,29 @@
 <?php
 echo "<a href='index.php'>Обратно</a><br>";
-
-interface IPayment {
-    public function payOrder(float $amount, string $phone);
+echo "<h2>Task 2</h2>";
+$stack = new SplStack();
+$brackets = ['{' => '}', '[' => ']', '(' => ')'];
+$str_all = [
+"\"Это тестовый вариант проверки (задачи со скобками). И вот еще скобки: {[][()]}\"",
+"((a + b)/ c) - 2",
+"\"([ошибка)\"",
+"\"(\")"
+];
+foreach ($str_all as $key => $str) {
+echo "Строчка номер $key <br>";
+echo $str;
+preg_match_all("/[\"\[\]{})(]/", $str, $strArray);
+foreach ($strArray[0] as $symbol) {
+if ($stack->isEmpty() || $stack->bottom() !== '"' && $brackets[$stack->bottom()] !== $symbol) {
+$stack->push($symbol);
+} else if ($stack->bottom() === '"' && $symbol === '"' || $brackets[$stack->bottom()] === $symbol) {
+$stack->pop();
 }
-
-class QiwiPayment implements IPayment {
-    public function payOrder(float $amount, string $phone) {
-        echo "Стоимость: " . $amount . "<br>" .
-            "Телефон: " . $phone . "<br>" .
-            "Оплачено с помощью Qiwi" . "<br>";
-    }
 }
-
-class YandexPayment implements IPayment {
-    public function payOrder(float $amount, string $phone) {
-        echo "Стоимость: " . $amount . "<br>" .
-            "Телефон: " . $phone . "<br>" .
-            "Оплачено с помощью Yandex" . "<br>";
-    }
+echo " - ";
+var_dump($stack->isEmpty());
+while (!$stack->isEmpty()) {
+$stack->pop();
 }
-
-class WebMoneyPayment implements IPayment {
-    public function payOrder(float $amount, string $phone) {
-        echo "Стоимость: " . $amount . "<br>" .
-        "Телефон: " . $phone . "<br>" .
-        "Оплачено с помощью WebMoney" . "<br>";
-    }
+echo "<br>";
 }
-
-function buySocks(IPayment $payment, string $phone) {
-    $amount = 30.2;
-    $payment->payOrder($amount, $phone);
-}
-
-buySocks(new YandexPayment(), "89000000000");
-
-buySocks(new QiwiPayment(), "89050000000");
-
-buySocks(new WebMoneyPayment(), "89050006300");

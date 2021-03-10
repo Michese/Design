@@ -1,94 +1,47 @@
 <?php
 echo "<a href='index.php'>Обратно</a><br>";
+echo "<h2>task 1</h2>";
 
-class Notify {
-    private static ?Notify $instance = null;
-    private Array $observed;
+echo "Поиск элемента массива с известным индексом - O(1)<br>
+Дублирование одномерного массива через foreach - O(n)<br>
+Рекурсивная функция нахождения факториала числа - O(n!)<br>
+Удаление элемента массива с известным индексом - O(n)<br>";
 
-    private function __construct()
-    {
-    }
+echo "<h2>task 1.2</h2>";
+echo "<h3>1)</h3>";
+echo '<pre>
+$n = 10000;
+$array[]= [];
+for ($i = 0; $i < $n; $i++) {
+  for ($j = 1; $j < $n; $j *= 2) {
+     $array[$i][$j]= true;
+} }
+// O(n*log(n))
+</pre>';
 
-    private function __clone()
-    {
-    }
+echo "<h3>2)</h3>";
+echo '<pre>
+$n = 10000;
+$array[] = [];
+for ($i = 0; $i < $n; $i += 2) {
+  for ($j = $i; $j < $n; $j++) {
+   $array[$i][$j]= true;
+} }
+// O(n<sup>2</sup>)
+</pre>';
 
-    public static function getInstance() : Notify {
-        if (self::$instance == null) {
-            self::$instance = new Notify();
-        }
-        return self::$instance;
-    }
+echo "<h3>3)</h3>";
 
-    public function addUser(User $user) : void {
-        $this->observed[] = $user;
-    }
-
-    public function removeUser(User $user) : void  {
-        foreach ($this->observed as $key => $observedUser) {
-            if ($observedUser->getEmail() == $user->getEmail()) {
-                unset($this->observed[$key]);
-                break;
-            }
-        }
-    }
-
-    public function notifyUsers() : void {
-        foreach ($this->observed as $user) {
-            echo "На почту " . $user->getEmail() . " отправленно письмо! <br>";
-        }
-    }
-}
-
-
-class Vacancy {
-    public function __construct()
-    {
-        $notify = Notify::getInstance();
-        $notify->notifyUsers();
-    }
-}
-
-
-class User {
-    private string $name;
-    private string $email;
-    private int $experience;
-
-    public function __construct(string $name, string $email, int $experience)
-    {
-        $this->name = $name;
-        $this->email = $email;
-        $this->experience = $experience;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function getExperience(): int
-    {
-        return $this->experience;
-    }
-}
-
-$notify = Notify::getInstance();
-
-$user1 = new User("Вася", "vali@mail.ru", 2);
-$user2 = new User("Андрей", "andrey@mail.ru", 3);
-$user3 = new User("Никита", "nikita@mail.ru", 2);
-
-$notify->addUser($user1);
-$notify->addUser($user3);
-
-new Vacancy();
-
-$notify->removeUser($user1);
-
-new Vacancy();
+echo '<pre>
+$n = 10000;
+$array[] = [];
+foo(n);
+function foo()  {
+while(n > 0) {
+  for ($j = sqrt(n); $j < $n; $j++) {
+        n--;
+        foo(n);
+   } } }
+   
+   // O(n!)
+   </pre>';
