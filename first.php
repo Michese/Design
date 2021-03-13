@@ -1,47 +1,52 @@
 <?php
 echo "<a href='index.php'>Обратно</a><br>";
-echo "<h2>task 1</h2>";
+$arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16];
+echo "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16] => " . findNumber($arr1) . "<br>";
 
-echo "Поиск элемента массива с известным индексом - O(1)<br>
-Дублирование одномерного массива через foreach - O(n)<br>
-Рекурсивная функция нахождения факториала числа - O(n!)<br>
-Удаление элемента массива с известным индексом - O(n)<br>";
+$arr2 = [1, 2, 4, 5, 6];
+echo "[1, 2, 4, 5, 6] => " . findNumber($arr2) . "<br>";
 
-echo "<h2>task 1.2</h2>";
-echo "<h3>1)</h3>";
-echo '<pre>
-$n = 10000;
-$array[]= [];
-for ($i = 0; $i < $n; $i++) {
-  for ($j = 1; $j < $n; $j *= 2) {
-     $array[$i][$j]= true;
-} }
-// O(n*log(n))
-</pre>';
+$arr3 = [];
+echo "[] => " . findNumber($arr3) . "<br>";
 
-echo "<h3>2)</h3>";
-echo '<pre>
-$n = 10000;
-$array[] = [];
-for ($i = 0; $i < $n; $i += 2) {
-  for ($j = $i; $j < $n; $j++) {
-   $array[$i][$j]= true;
-} }
-// O(n<sup>2</sup>)
-</pre>';
+$arr4 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+echo "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] => " . findNumber($arr4) . "<br>";
 
-echo "<h3>3)</h3>";
+function findNumber(array $arr): int
+{
+    $result = 0;
+    $countArray = count($arr);
+    $start = 0;
+    $end = $countArray - 1;
 
-echo '<pre>
-$n = 10000;
-$array[] = [];
-foo(n);
-function foo()  {
-while(n > 0) {
-  for ($j = sqrt(n); $j < $n; $j++) {
-        n--;
-        foo(n);
-   } } }
-   
-   // O(n!)
-   </pre>';
+    while (true) {
+        $base = floor(($start + $end) / 2);
+
+        if ($end == $base) {
+            $result =  $base + 2;
+            break;
+        }
+        else if($arr[$base] == $base + 1) {
+            if ($base < $countArray - 1 && $arr[$base + 1] != $base + 2) {
+                $result =  $base + 2;
+                break;
+            }
+            else {
+                $start = $base + 1;
+            }
+
+        }
+        else  {
+            if ($base > 0 && $arr[$base - 1] != $base) {
+                $result =  $base;
+                break;
+            }
+            else {
+                $end = $base - 1;
+            }
+
+        }
+    }
+
+    return $result;
+}
